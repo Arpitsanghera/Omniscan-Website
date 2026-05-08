@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Omniscan | Sovereign Audit & Partner Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,400;0,700;0,800;1,800&display=swap');
+        
+        :root {
+            --bg-color: #05070a;
+            --card-bg: #0d1117;
+            --accent-blue: #2563eb;
+            --danger-red: #e11d48;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass {
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top center, rgba(37, 99, 235, 0.15) 0%, transparent 80%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* iPhone Frame Styling */
+        .iphone-frame {
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 9/19.5;
+            background: #000;
+            border-radius: 44px;
+            border: 8px solid #1a1a1a;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8);
+            margin: 0 auto;
+        }
+
+        .iphone-island {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 32px;
+            background: #000;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            z-index: 100;
+        }
+
+        .app-screen {
+            height: 100%;
+            background: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .app-header {
+            padding: 55px 20px 25px;
+            text-align: center;
+        }
+
+        .app-header-boycott { background-color: #e11d48; }
+        .app-header-support { background-color: #10b981; }
+        .app-header-recall { background-color: #f59e0b; }
+        
+        .app-title-main { font-size: 2.2rem; font-weight: 900; color: white; font-style: italic; text-transform: uppercase; line-height: 1; letter-spacing: -1px; }
+        .app-subtitle { font-size: 0.6rem; font-weight: 700; color: rgba(255,255,255,0.9); text-transform: uppercase; margin-top: 15px; line-height: 1.4; }
+
+        .app-product-info { 
+            padding: 25px 20px; 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-product-name { font-size: 1.8rem; font-weight: 800; color: white; font-style: italic; line-height: 1.1; margin-bottom: 8px; text-transform: uppercase; }
+        .app-product-meta { font-size: 0.7rem; font-weight: 600; color: #64748b; margin-bottom: 20px; }
+
+        .legal-page-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 120px 24px;
+        }
+        .legal-content h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1.5rem; color: white; text-transform: uppercase; font-style: italic; line-height: 1; border-bottom: 4px solid #2563eb; padding-bottom: 1rem; }
+        .legal-content h2 { font-size: 1.25rem; font-weight: 800; margin-top: 3.5rem; margin-bottom: 1.25rem; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.05em; border-left: 3px solid #3b82f6; padding-left: 1rem; }
+        .legal-content h3 { font-size: 1.1rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: white; }
+        .legal-content p { font-size: 1rem; margin-bottom: 1.25rem; line-height: 1.8; color: #94a3b8; }
+        .legal-content ul { list-style-type: none; margin-bottom: 1.5rem; }
+        .legal-content li { font-size: 1rem; margin-bottom: 0.75rem; color: #94a3b8; padding-left: 1.5rem; position: relative; }
+        .legal-content li::before { content: "→"; color: #3b82f6; position: absolute; left: 0; font-weight: bold; }
+        .legal-content .important-box { background: rgba(37, 99, 235, 0.07); border: 1px solid rgba(37, 99, 235, 0.2); padding: 2rem; border-radius: 1.5rem; margin: 2.5rem 0; }
+        .legal-content .caps { text-transform: uppercase; font-weight: 800; color: white; letter-spacing: 0.05em; }
+
+        .page-view { display: none; }
+        .page-view.active { display: block; }
+
+        .nav-link { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; transition: color 0.3s; cursor: pointer; }
+        .nav-link:hover { color: #fff; }
+    </style>
+</head>
+<body class="selection:bg-blue-500/30 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-[100] glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+                <span class="text-xl font-extrabold uppercase italic tracking-tighter">Omniscan</span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a onclick="showPage('home')" class="nav-link">Platform</a>
+                <a onclick="showPage('how-it-works')" class="nav-link">Infrastructure</a>
+                <a onclick="showPage('security')" class="nav-link">Security</a>
+                <a onclick="showPage('legal-hub')" class="nav-link">Legal & Policies</a>
+            </div>
+
+            <button onclick="scrollToId('scan')" class="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-lg">
+                View Demo
+            </button>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page-view active">
+            <header class="pt-48 pb-24 hero-gradient text-center px-6">
+                <div class="max-w-4xl mx-auto">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest mb-8">
+                        <i class="fas fa-shield-check"></i> Sovereign Ethics Infrastructure
+                    </div>
+                    <h1 class="hero-title text-6xl md:text-9xl font-black tracking-tighter text-gradient leading-none mb-8 uppercase italic">
+                        AUDIT THE <br> WORLD.
+                    </h1>
+                    <h2 class="text-gray-400 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl mx-auto">
+                        High-integrity auditing infrastructure for global commerce. Verify ethical alignment, regulatory compliance, and supply chain transparency.
+                    </h2>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="showPage('terms-members')" class="bg-blue-600 px-10 py-5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-3 text-white">
+                            Member Onboarding
+                        </button>
+                        <button onclick="showPage('legal-hub')" class="glass px-10 py-5 rounded-2xl text-xs font-black uppercase tracking-widest border border-white/10 hover:bg-white/10 transition-all">
+                            Review Policies
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SCAN DEMO -->
+            <section id="scan" class="py-32 bg-[#030406]">
+                <div class="max-w-[1600px] mx-auto px-6 text-center">
+                    <h2 class="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-20">Algorithmic <span class="text-blue-500">Integrity.</span></h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                        <!-- BOYCOTT -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-6">Exclusion Protocol</span>
+                            <div class="iphone-frame border-red-500/20">
+                                <div class="app-screen">
+                                    <div class="app-header app-header-boycott">
+                                        <h2 class="app-title-main">BOYCOTT</h2>
+                                        <p class="app-subtitle">Corporate parent flagged for specified ethical exclusion list.</p>
+                                    </div>
+                                    <div class="app-product-info">
+                                        <h3 class="app-product-name">SCAN <br> RESULT 01</h3>
+                                        <p class="app-product-meta">Member Entity A • Origin: Restricted</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SUPPORT -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-6">Verification Protocol</span>
+                            <div class="iphone-frame border-emerald-500/20">
+                                <div class="app-screen">
+                                    <div class="app-header app-header-support">
+                                        <h2 class="app-title-main">SUPPORT</h2>
+                                        <p class="app-subtitle">Verified alignment with jurisdictional and ethical standards.</p>
+                                    </div>
+                                    <div class="app-product-info">
+                                        <h3 class="app-product-name">SCAN <br> RESULT 02</h3>
+                                        <p class="app-product-meta">Member Entity B • Origin: Verified</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- RECALL -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-6">Safety Protocol</span>
+                            <div class="iphone-frame border-warning-orange/20">
+                                <div class="app-screen">
+                                    <div class="app-header app-header-recall">
+                                        <h2 class="app-title-main">RECALL</h2>
+                                        <p class="app-subtitle">Automated safety advisory detected for this classification.</p>
+                                    </div>
+                                    <div class="app-product-info">
+                                        <h3 class="app-product-name">SCAN <br> RESULT 03</h3>
+                                        <p class="app-product-meta">Member Entity C • Advisory: Active</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- LEGAL HUB -->
+        <div id="page-legal-hub" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <p class="text-blue-500 font-bold uppercase tracking-widest text-xs mb-4">Governance Hub</p>
+                    <h1>Legal & Policies</h1>
+                    <p class="mb-12">Omniscan operates as a high-integrity infrastructure provider. "Member" refers to any business entity, retailer, or brand that maintains an account on the platform.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div onclick="showPage('terms-users')" class="glass p-8 rounded-3xl border border-white/5 cursor-pointer hover:border-blue-500/50 transition-all">
+                            <h3 class="text-xl font-bold italic uppercase mb-2">Consumer Terms</h3>
+                            <p class="text-sm text-gray-500">Rules for end-users accessing the auditing platform.</p>
+                        </div>
+                        <div onclick="showPage('terms-members')" class="glass p-8 rounded-3xl border border-white/5 cursor-pointer hover:border-blue-500/50 transition-all">
+                            <h3 class="text-xl font-bold italic uppercase mb-2">Member Terms</h3>
+                            <p class="text-sm text-gray-500">Commercial agreements for platform Members.</p>
+                        </div>
+                        <div onclick="showPage('privacy-users')" class="glass p-8 rounded-3xl border border-white/5 cursor-pointer hover:border-blue-500/50 transition-all">
+                            <h3 class="text-xl font-bold italic uppercase mb-2">Consumer Privacy</h3>
+                            <p class="text-sm text-gray-500">How we manage user data and public API requests.</p>
+                        </div>
+                        <div onclick="showPage('privacy-members')" class="glass p-8 rounded-3xl border border-white/5 cursor-pointer hover:border-blue-500/50 transition-all">
+                            <h3 class="text-xl font-bold italic uppercase mb-2">Member Privacy</h3>
+                            <p class="text-sm text-gray-500">Privacy standards for our commercial Members.</p>
+                        </div>
+                        <div onclick="showPage('refund-policy')" class="glass p-8 rounded-3xl border border-white/5 cursor-pointer hover:border-blue-500/50 transition-all">
+                            <h3 class="text-xl font-bold italic uppercase mb-2">Refund Policy</h3>
+                            <p class="text-sm text-gray-500">Transaction reversal flow via payment processors.</p>
+                        </div>
+                        <div onclick="showPage('acceptable-use')" class="glass p-8 rounded-3xl border border-white/5 cursor-pointer hover:border-blue-500/50 transition-all">
+                            <h3 class="text-xl font-bold italic uppercase mb-2">Acceptable Use</h3>
+                            <p class="text-sm text-gray-500">Platform conduct and conduction requirements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSUMER TERMS -->
+        <div id="page-terms-users" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <p class="text-blue-500 font-bold uppercase tracking-widest text-xs mb-4">Policy Framework</p>
+                    <h1>Consumer Terms of Service</h1>
+                    <p>Last Updated: May 6, 2026</p>
+                    
+                    <div class="important-box">
+                        <h3 class="text-white mt-0 flex items-center gap-2">
+                            <i class="fas fa-info-circle"></i> Platform & Payment Role Disclosure
+                        </h3>
+                        <p class="text-blue-200 text-sm">
+                            <strong>Omniscan operates solely as a technology infrastructure platform.</strong>
+                            Omniscan is not a retailer, payment processor, financial institution, or merchant of record.
+                        </p>
+                        <p class="text-blue-200 text-sm mt-3">
+                            All purchases, membership transactions, subscriptions, and financial transfers are processed directly by licensed third-party payment providers including PayPal. Omniscan does not collect, receive, store, transmit, or have access to users’ credit card numbers, bank account details, or other financial credentials at any time.
+                        </p>
+                        <p class="text-blue-200 text-sm mt-3">
+                            Payment authorization occurs exclusively between the user and the external payment provider. Omniscan receives only limited transaction confirmation data necessary to operate the platform, such as transaction identifiers and payment status.
+                        </p>
+                    </div>
+
+                    <h2>1. Platform Nature & Members</h2>
+                    <p>Omniscan is a technology platform that enables product discovery, verification, and transaction coordination between consumers and independent Members (retailers, brands, or organizations). Transactions occur directly between consumers and Members. Consumers are not required to create accounts to use core features.</p>
+
+                    <h2>2. Public API Recall System Disclosure</h2>
+                    <p>Recall and safety information displayed within Omniscan is obtained from publicly available governmental and third-party data sources accessed through public APIs. Omniscan does not create, verify, certify, or independently validate recall data and makes no guarantees regarding completeness, accuracy, timeliness, or availability of such information. Users must verify recall information with the original issuing authority before making safety decisions.</p>
+
+                    <h2>3. Limitation of Liability</h2>
+                    <p>To the maximum extent permitted by law, Omniscan's total liability arising from or relating to the service shall not exceed the total amount paid by you to Omniscan during the twelve (12) months preceding the event giving rise to the claim. IN NO EVENT SHALL OMNISCAN BE LIABLE FOR INDIRECT, SPECIAL, OR CONSEQUENTIAL DAMAGES.</p>
+
+                    <h2>4. Binding Arbitration & Class Action Waiver</h2>
+                    <p>ANY DISPUTE WILL BE RESOLVED BY BINDING ARBITRATION RATHER THAN IN COURT. BY AGREEING TO THESE TERMS, YOU WAIVE YOUR RIGHT TO PARTICIPATE IN A CLASS ACTION LAWSUIT OR CLASS-WIDE ARBITRATION.</p>
+
+                    <h2>5. No Personal Guarantee</h2>
+                    <p>Nothing within these Terms shall be interpreted as creating a personal guarantee, personal warranty, or individual obligation by any founder, operator, or representative of Omniscan.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MEMBER TERMS -->
+        <div id="page-terms-members" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <p class="text-blue-500 font-bold uppercase tracking-widest text-xs mb-4">Partner Infrastructure</p>
+                    <h1>Member Terms & Conditions</h1>
+                    <p>Last Updated: May 6, 2026</p>
+
+                    <div class="important-box">
+                        <p class="caps mb-4">Infrastructure Disclosure</p>
+                        <p class="text-white font-bold">Omniscan provides technology infrastructure only and is not the seller of record for products offered by Members. Omniscan never receives financial credentials.</p>
+                    </div>
+
+                    <h2>1. Payments and Financial Processing</h2>
+                    <p>Members acknowledge that Omniscan does not act as a payment processor, escrow agent, bank, or financial intermediary. Payments are processed entirely through third-party providers selected by the platform. Members are responsible for maintaining active accounts with the designated payment provider in order to receive funds. Omniscan does not hold sponsor funds or store banking credentials.</p>
+
+                    <h2>2. Payment Split Disclosure</h2>
+                    <p>Members acknowledge that payments may be automatically divided by the payment processor between the Member and Omniscan as a platform service fee (typically an 85/15 split). Omniscan does not manually distribute funds or hold transaction balances.</p>
+
+                    <h2>3. Member Responsibilities</h2>
+                    <p>Members are solely responsible for product accuracy, pricing, regulatory compliance, recalls issued by manufacturers or authorities, and customer service obligations.</p>
+
+                    <h2>4. QR Confirmation</h2>
+                    <p>Certain transactions require QR code confirmation to verify fulfillment. The QR confirmation constitutes proof of completion between the consumer and the Member.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSUMER PRIVACY -->
+        <div id="page-privacy-users" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <h1>Consumer Privacy Policy</h1>
+                    <p>Omniscan operates using a data-minimization architecture. We prioritize the display of public information without persistent user profiling.</p>
+                    
+                    <h2>1. Payment Information</h2>
+                    <p>Omniscan does not collect or store financial payment credentials. All payment information is entered directly into secure systems operated by third-party payment processors such as PayPal. Because payment data is never transmitted through or stored on Omniscan servers, Omniscan cannot access, retrieve, modify, or disclose users’ card or banking information.</p>
+
+                    <h2>2. Public API Data</h2>
+                    <p>Product scans and recall checks are processed temporarily using public API requests. These requests are not stored as persistent personal profiles and are generally deleted or anonymized after approximately thirty (30) days.</p>
+
+                    <h2>3. User Data Rights</h2>
+                    <p>Because Omniscan does not maintain consumer accounts or retain personal identity information, requests for access, correction, portability, or deletion will generally result in confirmation that no personal data is stored by Omniscan. For third-party data, users must contact processors directly.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- REFUND POLICY -->
+        <div id="page-refund-policy" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <h1>Marketplace Refund Policy</h1>
+                    <p>Refunds are processed as reversals of original transactions to maintain the integrity of the technology platform model.</p>
+                    
+                    <h2>1. Eligibility</h2>
+                    <p>Refund requests may be initiated through Omniscan within thirty (30) days of purchase. Completion requires in-store QR verification by the Member.</p>
+
+                    <h2>2. Processing Flow</h2>
+                    <p>Approved refunds are executed solely by the payment processor. Amounts are proportionally allocated according to the original payment split between the Member and Omniscan. Omniscan does not independently transfer funds or issue payments.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLATFORM INFRASTRUCTURE -->
+        <div id="page-how-it-works" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <h1>Platform Infrastructure</h1>
+                    <p>Omniscan provides sovereign auditing tools, automated product insight technology, and transaction coordination infrastructure connecting consumers and independent Members.</p>
+                    
+                    <p>Omniscan operates solely as a technology platform and is not:</p>
+                    <ul>
+                        <li>a retailer,</li>
+                        <li>a distributor,</li>
+                        <li>a marketplace seller,</li>
+                        <li>a financial institution,</li>
+                        <li>an escrow service,</li>
+                        <li>a logistics provider, or</li>
+                        <li>the seller of record for any product.</li>
+                    </ul>
+
+                    <h3>Technology Role</h3>
+                    <p>Omniscan enables product discovery, recall verification using publicly available APIs, QR-based transaction confirmation, and automated payment coordination through third-party processors.</p>
+
+                    <h3>Independent Members</h3>
+                    <p>All products, pricing, warranties, representations, and fulfillment obligations are determined solely by participating Members. Members act as independent businesses and not as agents, employees, or partners of Omniscan.</p>
+
+                    <h3>Transaction Coordination</h3>
+                    <p>Omniscan may facilitate automated payment splitting and confirmation mechanisms; however, funds are never held, controlled, or manually distributed by Omniscan.</p>
+
+                    <h3>Public Data Sources</h3>
+                    <p>Recall alerts and safety notices are obtained from governmental or third-party public APIs. Omniscan does not originate recall decisions or certify product safety.</p>
+
+                    <h3>No Ownership of Transactions</h3>
+                    <p>Legal ownership of purchases exists exclusively between the consumer and the Member. Omniscan does not assume contractual responsibility for product performance, delivery outcomes, or refund eligibility.</p>
+
+                    <h3>Infrastructure Availability</h3>
+                    <p>Omniscan provides services on an “as-available” basis and does not guarantee uninterrupted availability of platform infrastructure, integrations, or third-party services.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFRASTRUCTURE SECURITY -->
+        <div id="page-security" class="page-view">
+            <div class="legal-page-container">
+                <div class="legal-content">
+                    <h1>Infrastructure Security</h1>
+                    <p>Omniscan is built using a data-minimization architecture designed to limit the collection, storage, and exposure of personal information.</p>
+
+                    <h3>Data Minimization by Design</h3>
+                    <p>Omniscan does not request, receive, process, or store consumer financial credentials, including credit card numbers, banking information, or payment authentication data.</p>
+
+                    <h3>Third-Party Payment Processing</h3>
+                    <p>All payments are processed exclusively by regulated third-party payment processors, including but not limited to PayPal. Financial data is submitted directly to the payment processor using encrypted connections. Omniscan systems do not have access to full payment credentials at any time.</p>
+
+                    <h3>Temporary Operational Data</h3>
+                    <p>Limited technical information such as anonymous device identifiers, transaction confirmation tokens, QR verification states, and recall API queries may be processed temporarily to enable platform functionality. Such data is automatically deleted after operational necessity expires, typically within thirty (30) days.</p>
+
+                    <h3>Encryption & Transmission Security</h3>
+                    <p>All communications between user devices, Members, and Omniscan services are transmitted using industry-standard encrypted protocols (HTTPS/TLS or successor technologies).</p>
+
+                    <h3>Access Control</h3>
+                    <p>Administrative access to platform infrastructure is restricted using role-based authorization, authentication safeguards, and monitoring controls intended to prevent unauthorized system interaction.</p>
+
+                    <h3>No Persistent Consumer Profiles</h3>
+                    <p>Consumers are not required to create accounts. Omniscan does not maintain persistent personal identity databases for general platform usage.</p>
+
+                    <h3>Security Responsibility Allocation</h3>
+                    <p>Security of payment credentials, identity verification, and financial account protection remains the responsibility of the licensed payment processor.</p>
+
+                    <h3>Incident Response</h3>
+                    <p>In the event of a confirmed security incident affecting systems under Omniscan’s control, notifications will be provided as required under applicable Canadian privacy laws, including PIPEDA.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTHERS -->
+        <div id="page-privacy-members" class="page-view"><div class="legal-page-container"><div class="legal-content"><h1>Member Privacy Policy</h1><p>We collect business contact information and operational analytics necessary to provide platform features to Members. Financial credentials are stored only by payment processors.</p></div></div></div>
+        <div id="page-acceptable-use" class="page-view"><div class="legal-page-container"><div class="legal-content"><h1>Acceptable Use</h1><p>Prohibited: Scraping, reverse engineering, fraud, or bypassing payment flows. All activity must comply with Canadian federal and provincial laws.</p></div></div></div>
+        <div id="page-copyright-policy" class="page-view"><div class="legal-page-container"><div class="legal-content"><h1>Copyright Policy</h1><p>Notices under the Canadian Copyright Act should be sent to our legal department.</p></div></div></div>
+
+    </main>
+
+    <footer class="py-20 border-t border-white/5 bg-[#030406]">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <span class="text-2xl font-black uppercase italic tracking-tighter block mb-6">Omniscan</span>
+            <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-12">
+                <a onclick="showPage('legal-hub')" class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white cursor-pointer">Legal Hub</a>
+                <a onclick="showPage('terms-users')" class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white cursor-pointer">Consumer Terms</a>
+                <a onclick="showPage('terms-members')" class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white cursor-pointer">Member Terms</a>
+                <a onclick="showPage('privacy-users')" class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white cursor-pointer">Privacy</a>
+                <a onclick="showPage('refund-policy')" class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white cursor-pointer">Refunds</a>
+            </div>
+            <p class="text-[9px] text-gray-700 uppercase tracking-[0.2em] font-black">
+                Omniscan Technologies Inc. Vancouver, BC, Canada <br> 
+                Infrastructure &copy; 2026. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById('page-' + pageId);
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function scrollToId(id) {
+            showPage('home');
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if(el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
+        }
+    </script>
+</body>
+</html>
